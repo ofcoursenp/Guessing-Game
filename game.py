@@ -1,9 +1,11 @@
 
 import random
+from tracemalloc import start
+from turtle import up
 
 
-def start_game():
-    secret_number = random.randint(0, 10)
+def start_game(upperbound):
+    secret_number = random.randint(1, upperbound)
     guess_count = 0
     guess_limit = 3
 
@@ -16,21 +18,47 @@ def start_game():
             again = input('Do you want to play again? "y" or "n": ').lower()
 
             if again == 'y':
-                start_game()
-            elif again == 'n':
+                upperbound = 0
+                try:
+                    upperbound = int(input("Enter upper bound : "))
+                except ValueError:
+                    print("")
+                if upperbound > 0:
+                    start_game(upperbound=upperbound)
+                else:
+                    print("I dont understand that ")
+                    quit()
 
+            elif again == 'n':
                 exit()
+
             else:
                 print("I don't understand that.")
                 break
 
-        elif guess_count == guess_limit and guess != secret_number:
+        if guess > secret_number:
+            print("Go a bit low")
+
+        if guess < secret_number:
+            print("Go a bit high")
+
+
+        if guess_count == guess_limit and guess != secret_number:
 
             print("Sorry, You Failed!")
             again = input('Do you want to play again? "y" or "n": ').lower()
 
             if again == 'y':
-                start_game()
+                upperbound = 0
+                try:
+                    upperbound = int(input("Enter upper bound : "))
+                except ValueError:
+                    print("Please enter correct value ")
+                if upperbound > 0:
+                    start_game(upperbound=upperbound)
+                else:
+                    print("I dont understand that ")
+                    quit()
 
             elif again == 'n':
                 exit()
@@ -42,6 +70,14 @@ def start_game():
         else:
             print('Try again!')
 
+upperboundcheck = True
+while upperboundcheck:
+    try:
+        upperbound = 0
+        upperbound = int(input("Enter upper bound : "))
+    except ValueError:
+        print("Please enter correct integer value ")
+    if upperbound > 0:
+        upperboundcheck = False
 
-start_game()
-
+start_game(upperbound)
