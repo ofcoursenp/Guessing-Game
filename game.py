@@ -1,7 +1,5 @@
 
 import random
-from tracemalloc import start
-from turtle import up
 
 
 def start_game(upperbound):
